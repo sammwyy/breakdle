@@ -1,0 +1,106 @@
+export const es = {
+  // General
+  gold: 'Oro',
+  pps: 'PPS',
+  level: 'Nivel',
+  now_playing: 'Sonando ahora',
+  by: 'por',
+
+  // Tabs
+  ball: 'Bola',
+  paddle: 'Paleta',
+  arena: 'Arena',
+
+  // Modals
+  upgrades: 'Mejoras',
+  stats: 'Estadísticas',
+  settings: 'Ajustes',
+
+  // Stats
+  stat_total_gold_earned: 'Oro Total Ganado',
+  stat_total_gold_spent: 'Oro Total Gastado',
+  stat_peak_pps: 'PPS Máximo',
+  stat_blocks_destroyed: 'Bloques Destruidos',
+  stat_balls_spawned: 'Bolas Generadas',
+  stat_arenas_completed: 'Arenas Completadas',
+
+  // Settings
+  tab_sounds: 'Sonidos',
+  tab_gameplay: 'Juego',
+  tab_data: 'Datos',
+  tab_about: 'Acerca de',
+
+  setting_bgm: 'Música de Fondo',
+  setting_hit_block: 'Golpe a Bloque',
+  setting_hit_paddle: 'Golpe a Paleta',
+  setting_arena_clear: 'Arena Completada',
+  setting_arena_reset: 'Arena Reiniciada',
+  setting_pause_on_menu: 'Pausa en menú',
+  setting_pause_on_menu_desc: 'Pausa automáticamente al abrir un menú',
+  setting_language: 'Idioma',
+
+  data_warning: 'Advertencia: Esto borrará permanentemente todo tu progreso, oro y mejoras.',
+  data_delete_btn: 'Borrar Datos de Guardado',
+  data_confirm_title: '¿Borrar Todo el Progreso?',
+  data_confirm_desc: 'Esta acción no se puede deshacer. Todo tu oro, habilidades y progreso se perderán permanentemente.',
+  data_confirm_yes: 'Sí, Borrar Todo',
+  data_confirm_no: 'Cancelar',
+
+  about_author: 'Autor',
+  about_source: 'Código Fuente',
+  about_version: 'Versión',
+  about_donations: 'Donaciones',
+  about_thanks: '¡Gracias por jugar Breakdle!',
+
+  // Shop
+  shop_unlock_first: 'Desbloquea {name} primero para ver esta mejora.',
+  shop_select_upgrade: 'Selecciona una mejora para ver detalles',
+  shop_current_bonus: 'Bono Actual',
+  shop_next_level: 'Siguiente Nivel',
+  shop_none: 'Ninguno',
+  shop_max_level: 'Nivel Máximo Alcanzado',
+  shop_buy_for: 'Comprar por',
+  shop_upgrade_for: 'Mejorar por',
+
+  // Skills
+  skill_multiball_name: 'Multi-bola',
+  skill_multiball_desc: 'Aumenta el número máximo de bolas activas en la arena.',
+  skill_spikes_name: 'Púas',
+  skill_spikes_desc: 'Aumenta el daño que cada bola inflige a los ladrillos.',
+  skill_multipaddle_name: 'Multi-paleta',
+  skill_multipaddle_desc: 'Añade paletas automáticas que barren la pantalla.',
+  skill_fast_respawn_name: 'Reaparición Rápida',
+  skill_fast_respawn_desc: 'Reduce el tiempo que tarda una bola perdida en reaparecer.',
+  skill_fast_travel_name: 'Viaje Rápido',
+  skill_fast_travel_desc: 'Reduce el tiempo que tarda en aparecer una nueva arena después de completarla.',
+  skill_big_paddles_name: 'Paletas Grandes',
+  skill_big_paddles_desc: 'Aumenta el ancho de todas las paletas.',
+  skill_fast_barrier_name: 'Barrera Rápida',
+  skill_fast_barrier_desc: 'Reduce el tiempo de reutilización de las paletas extra cuando son golpeadas.',
+  skill_drill_name: 'Taladro',
+  skill_drill_desc: 'Probabilidad de que la bola atraviese un bloque sin rebotar si lo destruye.',
+  skill_explosion_name: 'Explosión',
+  skill_explosion_desc: 'Probabilidad de activar una explosión al golpear un bloque.',
+  skill_expl_nova_name: 'Nova Expl.',
+  skill_expl_nova_desc: 'Aumenta el radio de las explosiones.',
+  skill_expl_demolition_name: 'Demolición Expl.',
+  skill_expl_demolition_desc: 'Aumenta el daño de las explosiones.',
+  skill_ghost_ball_name: 'Bola Fantasma',
+  skill_ghost_ball_desc: 'Probabilidad de generar una bola fantasma temporal cuando una bola normal golpea un ladrillo.',
+  skill_gold_mastery_name: 'Maestría de Oro',
+  skill_gold_mastery_desc: 'Aumenta el oro ganado de todas las fuentes.',
+
+  bonus_multiball: '{val} bolas',
+  bonus_spikes: '{val} DMG',
+  bonus_multipaddle: '{val} paletas extra',
+  bonus_fast_respawn: '{val}s reaparición',
+  bonus_fast_travel: '{val}s espera',
+  bonus_big_paddles: '{val}px ancho',
+  bonus_fast_barrier: '{val}s enfriamiento',
+  bonus_drill: '{val}% prob. perforación',
+  bonus_explosion: '{val}% prob. explosión',
+  bonus_expl_nova: '+{val}px radio',
+  bonus_expl_demolition: '+{val} daño expl.',
+  bonus_ghost_ball: '{val}% prob. aparición',
+  bonus_gold_mastery: '+{val}% Oro'
+};

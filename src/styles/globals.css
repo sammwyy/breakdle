@@ -1,0 +1,13 @@
+@import "tailwindcss";
+
+@theme {
+  --animate-wobble-zoom: wobble-zoom 0.4s cubic-bezier(.36,.07,.19,.97) both;
+  @keyframes wobble-zoom {
+    0% { transform: scale(1) rotate(0deg); }
+    20% { transform: scale(1.2) rotate(-15deg); }
+    40% { transform: scale(1.2) rotate(0deg); }
+    60% { transform: scale(1.2) rotate(15deg); }
+    80% { transform: scale(1.1) rotate(0deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+}

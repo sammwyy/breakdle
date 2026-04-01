@@ -1,0 +1,106 @@
+export const en = {
+  // General
+  gold: 'Gold',
+  pps: 'PPS',
+  level: 'Level',
+  now_playing: 'Now Playing',
+  by: 'by',
+
+  // Tabs
+  ball: 'Ball',
+  paddle: 'Paddle',
+  arena: 'Arena',
+
+  // Modals
+  upgrades: 'Upgrades',
+  stats: 'Statistics',
+  settings: 'Settings',
+
+  // Stats
+  stat_total_gold_earned: 'Total Gold Earned',
+  stat_total_gold_spent: 'Total Gold Spent',
+  stat_peak_pps: 'Peak PPS',
+  stat_blocks_destroyed: 'Blocks Destroyed',
+  stat_balls_spawned: 'Balls Spawned',
+  stat_arenas_completed: 'Arenas Completed',
+
+  // Settings
+  tab_sounds: 'Sounds',
+  tab_gameplay: 'Gameplay',
+  tab_data: 'Data',
+  tab_about: 'About',
+
+  setting_bgm: 'Background Music',
+  setting_hit_block: 'Hit Block',
+  setting_hit_paddle: 'Hit Paddle',
+  setting_arena_clear: 'Arena Clear',
+  setting_arena_reset: 'Arena Reset',
+  setting_pause_on_menu: 'Pause on menu',
+  setting_pause_on_menu_desc: 'Automatically pause when opening a menu',
+  setting_language: 'Language',
+
+  data_warning: 'Warning: This will permanently delete all your progress, gold, and upgrades.',
+  data_delete_btn: 'Delete Save Data',
+  data_confirm_title: 'Delete All Progress?',
+  data_confirm_desc: 'This action cannot be undone. All your gold, skills, and progress will be permanently lost.',
+  data_confirm_yes: 'Yes, Delete Everything',
+  data_confirm_no: 'Cancel',
+
+  about_author: 'Author',
+  about_source: 'Source Code',
+  about_version: 'Version',
+  about_donations: 'Donations',
+  about_thanks: 'Thanks for playing Breakdle!',
+
+  // Shop
+  shop_unlock_first: 'Unlock {name} first to see this upgrade.',
+  shop_select_upgrade: 'Select an upgrade to view details',
+  shop_current_bonus: 'Current Bonus',
+  shop_next_level: 'Next Level',
+  shop_none: 'None',
+  shop_max_level: 'Max Level Reached',
+  shop_buy_for: 'Buy for',
+  shop_upgrade_for: 'Upgrade for',
+
+  // Skills
+  skill_multiball_name: 'Multiball',
+  skill_multiball_desc: 'Increases the maximum number of balls active in the arena.',
+  skill_spikes_name: 'Spikes',
+  skill_spikes_desc: 'Increases the damage each ball deals to bricks.',
+  skill_multipaddle_name: 'Multipaddle',
+  skill_multipaddle_desc: 'Adds automated paddles that sweep across the screen.',
+  skill_fast_respawn_name: 'Fast Respawn',
+  skill_fast_respawn_desc: 'Reduces the time it takes for a lost ball to respawn.',
+  skill_fast_travel_name: 'Fast Travel',
+  skill_fast_travel_desc: 'Reduces the time it takes for a new arena to appear after clearing.',
+  skill_big_paddles_name: 'Big Paddles',
+  skill_big_paddles_desc: 'Increases the width of all paddles.',
+  skill_fast_barrier_name: 'Fast Barrier',
+  skill_fast_barrier_desc: 'Reduces the cooldown of extra paddles when they are hit.',
+  skill_drill_name: 'Drill',
+  skill_drill_desc: 'Chance for the ball to pierce through a block without bouncing if it destroys it.',
+  skill_explosion_name: 'Explosion',
+  skill_explosion_desc: 'Chance to trigger an explosion on block hit.',
+  skill_expl_nova_name: 'Expl. Nova',
+  skill_expl_nova_desc: 'Increases the radius of explosions.',
+  skill_expl_demolition_name: 'Expl. Demolition',
+  skill_expl_demolition_desc: 'Increases the damage of explosions.',
+  skill_ghost_ball_name: 'Ghost Ball',
+  skill_ghost_ball_desc: 'Chance to spawn a temporary ghost ball when a normal ball hits a brick.',
+  skill_gold_mastery_name: 'Gold Mastery',
+  skill_gold_mastery_desc: 'Increases the gold earned from all sources.',
+
+  bonus_multiball: '{val} balls',
+  bonus_spikes: '{val} DMG',
+  bonus_multipaddle: '{val} extra paddles',
+  bonus_fast_respawn: '{val}s respawn',
+  bonus_fast_travel: '{val}s wait',
+  bonus_big_paddles: '{val}px width',
+  bonus_fast_barrier: '{val}s cooldown',
+  bonus_drill: '{val}% pierce chance',
+  bonus_explosion: '{val}% explosion chance',
+  bonus_expl_nova: '+{val}px radius',
+  bonus_expl_demolition: '+{val} explosion DMG',
+  bonus_ghost_ball: '{val}% spawn chance',
+  bonus_gold_mastery: '+{val}% Gold'
+};
