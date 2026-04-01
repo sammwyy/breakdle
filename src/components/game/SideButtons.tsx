@@ -27,7 +27,7 @@ export const SideButtons: React.FC<SideButtonsProps> = ({
 
       <button
         onClick={onOpenStats}
-        className="group flex flex-row-reverse items-center justify-start bg-[#FFD6A5] text-[#9D8189] rounded-full p-4 shadow-sm border border-white/80 hover:bg-[#FFC285] transition-all duration-300 w-[60px] hover:w-[130px] overflow-hidden"
+        className="group flex flex-row-reverse items-center justify-start bg-[#FFD6A5] text-[#9D8189] rounded-full p-4 shadow-sm border border-white/80 hover:bg-[#FFC285] transition-all duration-300 w-[60px] hover:w-[160px] overflow-hidden"
       >
         <BarChart2 size={26} className="shrink-0" />
         <span className="mr-3 font-bold text-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-75">{t('stats', language as any)}</span>
