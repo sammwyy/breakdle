@@ -39,6 +39,8 @@ export const es = {
   setting_pause_on_menu: 'Pausa en menú',
   setting_pause_on_menu_desc: 'Pausa automáticamente al abrir un menú',
   setting_language: 'Idioma',
+  setting_show_fps: 'Mostrar FPS',
+  setting_show_fps_desc: 'Muestra un contador de fotogramas por segundo',
 
   data_warning: 'Advertencia: Esto borrará permanentemente todo tu progreso, oro y mejoras.',
   data_delete_btn: 'Borrar Datos de Guardado',

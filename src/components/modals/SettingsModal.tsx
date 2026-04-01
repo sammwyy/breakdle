@@ -15,6 +15,8 @@ interface SettingsModalProps {
   handleVolumeChange: (key: string, value: number) => void;
   pauseOnMenu: boolean;
   setPauseOnMenu: (val: boolean) => void;
+  showFps: boolean;
+  setShowFps: (val: boolean) => void;
   version: string;
 }
 
@@ -27,6 +29,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
   handleVolumeChange,
   pauseOnMenu,
   setPauseOnMenu,
+  showFps,
+  setShowFps,
   version
 }) => {
   const [settingsTab, setSettingsTab] = useState<'sounds' | 'gameplay' | 'data' | 'about'>('sounds');
@@ -97,6 +101,24 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
               <option value="en">English</option>
               <option value="es">Español</option>
             </select>
+          </div>
+
+          <div className="flex items-center justify-between p-4 bg-white/50 rounded-2xl border border-white/50">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold text-[#9D8189]">{t('setting_show_fps', language as any)}</span>
+              <span className="text-[10px] text-[#9D8189]/60">{t('setting_show_fps_desc', language as any)}</span>
+            </div>
+            <button
+              onClick={() => {
+                const newVal = !showFps;
+                setShowFps(newVal);
+                state.settings.showFps = newVal;
+                state.save();
+              }}
+              className={`w-12 h-6 rounded-full transition-colors relative ${showFps ? 'bg-[#CAFFBF]' : 'bg-[#9D8189]/20'}`}
+            >
+              <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${showFps ? 'left-7' : 'left-1'}`} />
+            </button>
           </div>
         </div>
       )}

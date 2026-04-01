@@ -89,6 +89,10 @@ export class BreakdleEngine {
   ctx: CanvasRenderingContext2D;
   isRunning = false;
   lastTime = 0;
+  worker: Worker | null = null;
+  fps = 0;
+  frameCount = 0;
+  lastFpsTime = 0;
 
   paddles: { x: number, y: number, width: number, height: number, respawnTimer: number }[] = [{ x: 0, y: 0, width: 150, height: 20, respawnTimer: 0 }];
   balls: { x: number, y: number, vx: number, vy: number, radius: number, active: boolean, respawnTimer: number, deathX: number, state: Record<string, any>, isGhost?: boolean }[] = [];
@@ -107,6 +111,15 @@ export class BreakdleEngine {
     window.addEventListener('resize', this.resize);
     window.addEventListener('mousemove', this.onMouseMove);
     this.spawnArena();
+
+    this.worker = new Worker(new URL('../utils/timer-worker.ts', import.meta.url), { type: 'module' });
+    this.worker.onmessage = (e) => {
+      if (document.hidden && this.isRunning && !state.isPaused) {
+        const dt = (e.data as number) / 1000;
+        this.update(dt * state.timeScale);
+        this.lastTime = performance.now();
+      }
+    };
   }
 
   onMouseMove = (e: MouseEvent) => {
@@ -134,6 +147,10 @@ export class BreakdleEngine {
     this.isRunning = false;
     window.removeEventListener('resize', this.resize);
     window.removeEventListener('mousemove', this.onMouseMove);
+    if (this.worker) {
+      this.worker.terminate();
+      this.worker = null;
+    }
   }
 
   spawnGhostBall(x: number, y: number, vx: number, vy: number) {
@@ -190,13 +207,22 @@ export class BreakdleEngine {
   loop = (time: number) => {
     if (!this.isRunning) return;
 
-    const dt = Math.min((time - this.lastTime) / 1000, 0.1);
-    this.lastTime = time;
+    if (!document.hidden) {
+      const dt = Math.min((time - this.lastTime) / 1000, 0.1);
+      this.lastTime = time;
 
-    if (!state.isPaused) {
-      this.update(dt * state.timeScale);
+      if (!state.isPaused) {
+        this.update(dt * state.timeScale);
+      }
+      this.draw();
+
+      this.frameCount++;
+      if (time - this.lastFpsTime >= 1000) {
+        this.fps = this.frameCount;
+        this.frameCount = 0;
+        this.lastFpsTime = time;
+      }
     }
-    this.draw();
 
     requestAnimationFrame(this.loop);
   }
@@ -624,6 +650,14 @@ export class BreakdleEngine {
       ctx.font = '700 42px Fredoka';
       ctx.textAlign = 'center';
       ctx.fillText(`Next Arena in ${Math.ceil(this.arenaRespawnTimer)}s`, this.canvas.width / 2, this.canvas.height / 2);
+    }
+
+    if (state.settings.showFps) {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      ctx.font = '700 12px Fredoka';
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'top';
+      ctx.fillText(`${this.fps} FPS`, this.canvas.width - 10, 10);
     }
   }
 }

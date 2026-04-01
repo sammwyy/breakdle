@@ -42,7 +42,8 @@ export class GameState {
       arenaReset: 0.5
     },
     pauseOnMenu: true,
-    language: 'en' as Language
+    language: 'en' as Language,
+    showFps: false
   };
   
   savedBricks: any[] | null = null;
@@ -114,7 +115,8 @@ export class GameState {
         arenaReset: 0.5
       },
       pauseOnMenu: true,
-      language: 'en' as Language
+      language: 'en' as Language,
+      showFps: false
     };
     this.savedBricks = null;
     this.canSave = false;

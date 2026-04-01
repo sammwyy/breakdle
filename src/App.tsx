@@ -34,6 +34,7 @@ export default function App() {
   const [volumes, setVolumes] = useState(state.settings.volumes);
   const [pauseOnMenu, setPauseOnMenu] = useState(state.settings.pauseOnMenu);
   const [language, setLanguage] = useState(state.settings.language);
+  const [showFps, setShowFps] = useState(state.settings.showFps);
   const [wasPausedBeforeMenu, setWasPausedBeforeMenu] = useState(false);
   
   const [gold, setGold] = useState(state.gold);
@@ -83,20 +84,31 @@ export default function App() {
   }, [paddleMode]);
 
   useEffect(() => {
-    let history: number[] = [];
+    let history: { diff: number, dt: number }[] = [];
     let lastGold = state.gold;
+    let lastTime = performance.now();
+    
     const interval = setInterval(() => {
       const currentGold = state.gold;
+      const now = performance.now();
+      
       const diff = currentGold - lastGold;
+      const dt = (now - lastTime) / 1000;
+      
       lastGold = currentGold;
-      history.push(diff);
-      if (history.length > 10) history.shift();
+      lastTime = now;
+      
+      if (dt > 0) {
+        history.push({ diff, dt });
+        if (history.length > 10) history.shift();
 
-      const totalDiff = history.reduce((a, b) => a + b, 0);
-      const currentPps = totalDiff / history.length;
-      setPps(currentPps);
-      if (currentPps > state.stats.peakPps) {
-        state.stats.peakPps = currentPps;
+        const totalDiff = history.reduce((a, b) => a + b.diff, 0);
+        const totalTime = history.reduce((a, b) => a + b.dt, 0);
+        const currentPps = totalDiff / totalTime;
+        setPps(currentPps);
+        if (currentPps > state.stats.peakPps) {
+          state.stats.peakPps = currentPps;
+        }
       }
     }, 1000);
     return () => clearInterval(interval);
@@ -261,6 +273,8 @@ export default function App() {
                 handleVolumeChange={handleVolumeChange}
                 pauseOnMenu={pauseOnMenu}
                 setPauseOnMenu={setPauseOnMenu}
+                showFps={showFps}
+                setShowFps={setShowFps}
                 version={VERSION}
               />
             )}

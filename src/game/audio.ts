@@ -16,6 +16,14 @@ class AudioSystem {
       this.bgmAudio.crossOrigin = "anonymous";
       this.bgmAudio.addEventListener('ended', () => this.nextTrack());
       this.playTrack(this.currentTrackIndex);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+          this.bgmAudio?.pause();
+        } else {
+          this.bgmAudio?.play().catch(() => {});
+        }
+      });
     }
   }
 
@@ -64,7 +72,7 @@ class AudioSystem {
   }
 
   playHitBlock() {
-    if (!this.audioCtx) return;
+    if (!this.audioCtx || document.hidden) return;
     const vol = state.settings.volumes.hitBlock * 0.4;
     if (vol <= 0) return;
 
@@ -94,7 +102,7 @@ class AudioSystem {
   }
 
   playHitPaddle() {
-    if (!this.audioCtx) return;
+    if (!this.audioCtx || document.hidden) return;
     const vol = state.settings.volumes.hitPaddle * 0.5;
     if (vol <= 0) return;
 
@@ -119,7 +127,7 @@ class AudioSystem {
   }
 
   playArenaClear() {
-    if (!this.audioCtx) return;
+    if (!this.audioCtx || document.hidden) return;
     const vol = state.settings.volumes.arenaClear * 0.5;
     if (vol <= 0) return;
     
@@ -130,7 +138,7 @@ class AudioSystem {
   }
 
   playArenaReset() {
-    if (!this.audioCtx) return;
+    if (!this.audioCtx || document.hidden) return;
     const vol = state.settings.volumes.arenaReset * 0.5;
     if (vol <= 0) return;
     

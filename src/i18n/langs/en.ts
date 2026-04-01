@@ -39,6 +39,8 @@ export const en = {
   setting_pause_on_menu: 'Pause on menu',
   setting_pause_on_menu_desc: 'Automatically pause when opening a menu',
   setting_language: 'Language',
+  setting_show_fps: 'Show FPS',
+  setting_show_fps_desc: 'Displays a frames per second counter',
 
   data_warning: 'Warning: This will permanently delete all your progress, gold, and upgrades.',
   data_delete_btn: 'Delete Save Data',
