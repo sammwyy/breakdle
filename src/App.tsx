@@ -176,7 +176,7 @@ export default function App() {
   return (
     <div className="w-screen h-screen overflow-hidden relative bg-[#FFF5F5] flex items-center justify-center">
       <div className="relative w-full h-full max-w-[1400px] bg-white shadow-[0_0_50px_rgba(0,0,0,0.05)] overflow-hidden">
-        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block cursor-none" />
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
 
         {!isStarted ? (
           <StartScreen onStart={handleStart} language={language} />
