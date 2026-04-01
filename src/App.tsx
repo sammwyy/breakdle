@@ -10,6 +10,7 @@ import { t } from './i18n';
 import { TopBar } from './components/game/TopBar';
 import { SideButtons } from './components/game/SideButtons';
 import { DebugMenu } from './components/game/DebugMenu';
+import { StartScreen } from './components/game/StartScreen';
 import { StatsModal } from './components/modals/StatsModal';
 import { ShopModal } from './components/modals/ShopModal';
 import { SettingsModal } from './components/modals/SettingsModal';
@@ -21,6 +22,9 @@ const VERSION = '1.0.0';
 
 export default function App() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const engineRef = useRef<BreakdleEngine | null>(null);
+  
+  const [isStarted, setIsStarted] = useState(false);
   const [debugOpen, setDebugOpen] = useState(false);
   const [shopOpen, setShopOpen] = useState(false);
   const [statsOpen, setStatsOpen] = useState(false);
@@ -41,6 +45,14 @@ export default function App() {
   const [arenaLevel, setArenaLevel] = useState(state.arenaLevel);
   const [paddleMode, setPaddleMode] = useState(state.paddleMode);
   const [skills, setSkills] = useState<Record<string, number>>({ ...state.skills });
+
+  const handleStart = () => {
+    setIsStarted(true);
+    audio.init();
+    if (engineRef.current) {
+      engineRef.current.start();
+    }
+  };
 
   const handleUpgrade = (skillId: string) => {
     const skill = SKILLS.find(s => s.id === skillId);
@@ -109,15 +121,11 @@ export default function App() {
   useEffect(() => {
     if (!canvasRef.current) return;
     const engine = new BreakdleEngine(canvasRef.current);
-    engine.start();
-
-    const initAudio = () => {
-      audio.init();
-      window.removeEventListener('click', initAudio);
-      window.removeEventListener('keydown', initAudio);
-    };
-    window.addEventListener('click', initAudio);
-    window.addEventListener('keydown', initAudio);
+    engineRef.current = engine;
+    
+    // We don't start the engine loop until handleStart is called
+    // But we draw the first frame
+    engine.draw();
 
     let lastGold = state.gold;
     const interval = setInterval(() => {
@@ -169,95 +177,101 @@ export default function App() {
     <div className="w-screen h-screen overflow-hidden relative bg-[#FFF5F5]">
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
 
-      <TopBar
-        gold={gold}
-        pps={pps}
-        isAnimating={isAnimating}
-        setIsAnimating={setIsAnimating}
-        language={language}
-        arenaLevel={arenaLevel}
-        currentTrack={currentTrack}
-      />
+      {!isStarted ? (
+        <StartScreen onStart={handleStart} language={language} />
+      ) : (
+        <>
+          <TopBar
+            gold={gold}
+            pps={pps}
+            isAnimating={isAnimating}
+            setIsAnimating={setIsAnimating}
+            language={language}
+            arenaLevel={arenaLevel}
+            currentTrack={currentTrack}
+          />
 
-      {debugOpen && DEBUG_ENABLED && (
-        <DebugMenu
-          isPaused={isPaused}
-          setIsPaused={setIsPaused}
-          timeScale={timeScale}
-          setTimeScale={setTimeScale}
-          language={language}
-          arenaLevel={arenaLevel}
-          setArenaLevel={setArenaLevel}
-          paddleMode={paddleMode}
-          setPaddleMode={setPaddleMode}
-          skills={skills}
-          setSkills={setSkills}
-        />
-      )}
+          {debugOpen && DEBUG_ENABLED && (
+            <DebugMenu
+              isPaused={isPaused}
+              setIsPaused={setIsPaused}
+              timeScale={timeScale}
+              setTimeScale={setTimeScale}
+              language={language}
+              arenaLevel={arenaLevel}
+              setArenaLevel={setArenaLevel}
+              paddleMode={paddleMode}
+              setPaddleMode={setPaddleMode}
+              skills={skills}
+              setSkills={setSkills}
+            />
+          )}
 
-      {/* Bottom Left: Debug & Pause Buttons */}
-      <div className="absolute bottom-6 left-6 pointer-events-auto z-10 flex gap-3">
-        {DEBUG_ENABLED && (
-          <button
-            onClick={() => setDebugOpen(!debugOpen)}
-            className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
-          >
-            <Bug size={28} />
-          </button>
-        )}
-        <button
-          onClick={() => { state.isPaused = !state.isPaused; setIsPaused(state.isPaused); }}
-          className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
-        >
-          {isPaused ? <Play size={28} /> : <Pause size={28} />}
-        </button>
-      </div>
+          {/* Bottom Left: Debug & Pause Buttons */}
+          <div className="absolute bottom-6 left-6 pointer-events-auto z-10 flex gap-3">
+            {DEBUG_ENABLED && (
+              <button
+                onClick={() => setDebugOpen(!debugOpen)}
+                className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
+              >
+                <Bug size={28} />
+              </button>
+            )}
+            <button
+              onClick={() => { state.isPaused = !state.isPaused; setIsPaused(state.isPaused); }}
+              className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
+            >
+              {isPaused ? <Play size={28} /> : <Pause size={28} />}
+            </button>
+          </div>
 
-      <SideButtons
-        onOpenShop={() => openModal(setShopOpen)}
-        onOpenStats={() => openModal(setStatsOpen)}
-        onOpenSettings={() => openModal(setSettingsOpen)}
-        language={language}
-      />
+          <SideButtons
+            onOpenShop={() => openModal(setShopOpen)}
+            onOpenStats={() => openModal(setStatsOpen)}
+            onOpenSettings={() => openModal(setSettingsOpen)}
+            language={language}
+          />
 
-      {statsOpen && (
-        <StatsModal
-          onClose={() => closeModal(setStatsOpen)}
-          language={language}
-          formatNumber={formatNumber}
-        />
-      )}
+          {statsOpen && (
+            <StatsModal
+              onClose={() => closeModal(setStatsOpen)}
+              language={language}
+              formatNumber={formatNumber}
+            />
+          )}
 
-      {shopOpen && (
-        <ShopModal
-          onClose={() => closeModal(setShopOpen)}
-          language={language}
-          gold={gold}
-          skills={skills}
-          handleUpgrade={handleUpgrade}
-        />
-      )}
+          {shopOpen && (
+            <ShopModal
+              onClose={() => closeModal(setShopOpen)}
+              language={language}
+              gold={gold}
+              skills={skills}
+              handleUpgrade={handleUpgrade}
+            />
+          )}
 
-      {settingsOpen && (
-        <SettingsModal
-          onClose={() => closeModal(setSettingsOpen)}
-          onResetData={() => setResetConfirmOpen(true)}
-          language={language}
-          setLanguage={setLanguage}
-          volumes={volumes}
-          handleVolumeChange={handleVolumeChange}
-          pauseOnMenu={pauseOnMenu}
-          setPauseOnMenu={setPauseOnMenu}
-          version={VERSION}
-        />
-      )}
+          {settingsOpen && (
+            <SettingsModal
+              onClose={() => closeModal(setSettingsOpen)}
+              onResetData={() => setResetConfirmOpen(true)}
+              language={language}
+              setLanguage={setLanguage}
+              volumes={volumes}
+              handleVolumeChange={handleVolumeChange}
+              pauseOnMenu={pauseOnMenu}
+              setPauseOnMenu={setPauseOnMenu}
+              version={VERSION}
+            />
+          )}
 
-      {resetConfirmOpen && (
-        <ResetConfirmModal
-          onClose={() => setResetConfirmOpen(false)}
-          onConfirm={handleResetData}
-          language={language}
-        />
+          {resetConfirmOpen && (
+            <ResetConfirmModal
+              onClose={() => setResetConfirmOpen(false)}
+              onConfirm={handleResetData}
+              language={language}
+            />
+          )}
+        </>
       )}
     </div>
   );

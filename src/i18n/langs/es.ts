@@ -5,6 +5,7 @@ export const es = {
   level: 'Nivel',
   now_playing: 'Sonando ahora',
   by: 'por',
+  start_game: 'Empezar Juego',
 
   // Tabs
   ball: 'Bola',
