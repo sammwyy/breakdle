@@ -174,105 +174,107 @@ export default function App() {
   };
 
   return (
-    <div className="w-screen h-screen overflow-hidden relative bg-[#FFF5F5]">
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block" />
+    <div className="w-screen h-screen overflow-hidden relative bg-[#FFF5F5] flex items-center justify-center">
+      <div className="relative w-full h-full max-w-[1400px] bg-white shadow-[0_0_50px_rgba(0,0,0,0.05)] overflow-hidden">
+        <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block cursor-none" />
 
-      {!isStarted ? (
-        <StartScreen onStart={handleStart} language={language} />
-      ) : (
-        <>
-          <TopBar
-            gold={gold}
-            pps={pps}
-            isAnimating={isAnimating}
-            setIsAnimating={setIsAnimating}
-            language={language}
-            arenaLevel={arenaLevel}
-            currentTrack={currentTrack}
-          />
-
-          {debugOpen && DEBUG_ENABLED && (
-            <DebugMenu
-              isPaused={isPaused}
-              setIsPaused={setIsPaused}
-              timeScale={timeScale}
-              setTimeScale={setTimeScale}
+        {!isStarted ? (
+          <StartScreen onStart={handleStart} language={language} />
+        ) : (
+          <>
+            <TopBar
+              gold={gold}
+              pps={pps}
+              isAnimating={isAnimating}
+              setIsAnimating={setIsAnimating}
               language={language}
               arenaLevel={arenaLevel}
-              setArenaLevel={setArenaLevel}
-              paddleMode={paddleMode}
-              setPaddleMode={setPaddleMode}
-              skills={skills}
-              setSkills={setSkills}
+              currentTrack={currentTrack}
             />
-          )}
 
-          {/* Bottom Left: Debug & Pause Buttons */}
-          <div className="absolute bottom-6 left-6 pointer-events-auto z-10 flex gap-3">
-            {DEBUG_ENABLED && (
+            {debugOpen && DEBUG_ENABLED && (
+              <DebugMenu
+                isPaused={isPaused}
+                setIsPaused={setIsPaused}
+                timeScale={timeScale}
+                setTimeScale={setTimeScale}
+                language={language}
+                arenaLevel={arenaLevel}
+                setArenaLevel={setArenaLevel}
+                paddleMode={paddleMode}
+                setPaddleMode={setPaddleMode}
+                skills={skills}
+                setSkills={setSkills}
+              />
+            )}
+
+            {/* Bottom Left: Debug & Pause Buttons */}
+            <div className="absolute bottom-6 left-6 pointer-events-auto z-10 flex gap-3">
+              {DEBUG_ENABLED && (
+                <button
+                  onClick={() => setDebugOpen(!debugOpen)}
+                  className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
+                >
+                  <Bug size={28} />
+                </button>
+              )}
               <button
-                onClick={() => setDebugOpen(!debugOpen)}
+                onClick={() => { state.isPaused = !state.isPaused; setIsPaused(state.isPaused); }}
                 className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
               >
-                <Bug size={28} />
+                {isPaused ? <Play size={28} /> : <Pause size={28} />}
               </button>
+            </div>
+
+            <SideButtons
+              onOpenShop={() => openModal(setShopOpen)}
+              onOpenStats={() => openModal(setStatsOpen)}
+              onOpenSettings={() => openModal(setSettingsOpen)}
+              language={language}
+            />
+
+            {statsOpen && (
+              <StatsModal
+                onClose={() => closeModal(setStatsOpen)}
+                language={language}
+                formatNumber={formatNumber}
+              />
             )}
-            <button
-              onClick={() => { state.isPaused = !state.isPaused; setIsPaused(state.isPaused); }}
-              className="p-3 bg-white/50 backdrop-blur-md text-[#9D8189] rounded-2xl font-bold hover:bg-white/80 transition-all active:scale-95 shadow-sm border border-white/50"
-            >
-              {isPaused ? <Play size={28} /> : <Pause size={28} />}
-            </button>
-          </div>
 
-          <SideButtons
-            onOpenShop={() => openModal(setShopOpen)}
-            onOpenStats={() => openModal(setStatsOpen)}
-            onOpenSettings={() => openModal(setSettingsOpen)}
-            language={language}
-          />
+            {shopOpen && (
+              <ShopModal
+                onClose={() => closeModal(setShopOpen)}
+                language={language}
+                gold={gold}
+                skills={skills}
+                handleUpgrade={handleUpgrade}
+              />
+            )}
 
-          {statsOpen && (
-            <StatsModal
-              onClose={() => closeModal(setStatsOpen)}
-              language={language}
-              formatNumber={formatNumber}
-            />
-          )}
+            {settingsOpen && (
+              <SettingsModal
+                onClose={() => closeModal(setSettingsOpen)}
+                onResetData={() => setResetConfirmOpen(true)}
+                language={language}
+                setLanguage={setLanguage}
+                volumes={volumes}
+                handleVolumeChange={handleVolumeChange}
+                pauseOnMenu={pauseOnMenu}
+                setPauseOnMenu={setPauseOnMenu}
+                version={VERSION}
+              />
+            )}
 
-          {shopOpen && (
-            <ShopModal
-              onClose={() => closeModal(setShopOpen)}
-              language={language}
-              gold={gold}
-              skills={skills}
-              handleUpgrade={handleUpgrade}
-            />
-          )}
-
-          {settingsOpen && (
-            <SettingsModal
-              onClose={() => closeModal(setSettingsOpen)}
-              onResetData={() => setResetConfirmOpen(true)}
-              language={language}
-              setLanguage={setLanguage}
-              volumes={volumes}
-              handleVolumeChange={handleVolumeChange}
-              pauseOnMenu={pauseOnMenu}
-              setPauseOnMenu={setPauseOnMenu}
-              version={VERSION}
-            />
-          )}
-
-          {resetConfirmOpen && (
-            <ResetConfirmModal
-              onClose={() => setResetConfirmOpen(false)}
-              onConfirm={handleResetData}
-              language={language}
-            />
-          )}
-        </>
-      )}
+            {resetConfirmOpen && (
+              <ResetConfirmModal
+                onClose={() => setResetConfirmOpen(false)}
+                onConfirm={handleResetData}
+                language={language}
+              />
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

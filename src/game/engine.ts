@@ -110,12 +110,15 @@ export class BreakdleEngine {
   }
 
   onMouseMove = (e: MouseEvent) => {
-    this.mouseX = e.clientX;
+    const rect = this.canvas.getBoundingClientRect();
+    this.mouseX = e.clientX - rect.left;
   }
 
   resize = () => {
-    this.canvas.width = window.innerWidth;
-    this.canvas.height = window.innerHeight;
+    const rect = this.canvas.parentElement?.getBoundingClientRect() || { width: window.innerWidth, height: window.innerHeight };
+    this.canvas.width = rect.width;
+    this.canvas.height = rect.height;
+    
     for (let i = 0; i < this.paddles.length; i++) {
       this.paddles[i].y = i === 0 ? this.canvas.height - 80 : this.canvas.height - 140;
     }
@@ -153,10 +156,12 @@ export class BreakdleEngine {
 
     const padding = 12;
     const topOffset = 140;
-    const sideOffset = Math.max(40, (this.canvas.width - Math.min(this.canvas.width - 80, 800)) / 2);
+    
+    // Calculate brick area based on proportions
+    const maxBrickAreaWidth = Math.min(this.canvas.width - 80, 1000);
+    const sideOffset = (this.canvas.width - maxBrickAreaWidth) / 2;
 
-    const availableWidth = this.canvas.width - sideOffset * 2;
-    const brickW = (availableWidth - padding * (cols - 1)) / cols;
+    const brickW = (maxBrickAreaWidth - padding * (cols - 1)) / cols;
     const brickH = 40;
 
     const baseHP = Math.floor(10 * Math.pow(1.015, state.arenaLevel - 1));
